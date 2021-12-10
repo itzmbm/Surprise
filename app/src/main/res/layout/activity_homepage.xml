@@ -112,7 +112,7 @@
         tools:ignore="HardcodedText" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/flower"
         android:layout_width="187dp"
         android:layout_height="129dp"
         app:layout_constraintBottom_toBottomOf="parent"

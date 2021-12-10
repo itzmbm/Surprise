@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Surprise">
         <activity
+            android:name=".FlowerSub"
+            android:exported="false" />
+        <activity
+            android:name=".cart"
+            android:exported="false" />
+        <activity
             android:name=".FlowerMain"
             android:exported="false" />
         <activity
