@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Surprise">
         <activity
+            android:name=".FlowerMain"
+            android:exported="false" />
+        <activity
+            android:name=".CakeMain"
+            android:exported="false" />
+        <activity
+            android:name=".Homepage"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
