@@ -19,6 +19,7 @@ private ImageView ro;
         setContentView(R.layout.activity_flower_main);
         Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
         ro=(ImageView)findViewById(R.id.rose);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
         ro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

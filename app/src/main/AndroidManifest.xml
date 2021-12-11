@@ -10,10 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Surprise">
         <activity
+            android:name=".PaymentSuccess"
+            android:exported="false" />
+        <activity
             android:name=".PaymentDetails"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".OrderView"
             android:exported="false" />
         <activity
             android:name=".Profile"
@@ -37,7 +40,7 @@
             android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".OrderView"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
