@@ -37,7 +37,6 @@ btn.setOnClickListener(new View.OnClickListener() {
     }
 });
 
-
     }
 
     private void makePayment() {
@@ -54,7 +53,7 @@ btn.setOnClickListener(new View.OnClickListener() {
 //            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
             options.put("theme.color", "#3399cc");
             options.put("currency", "INR");
-            options.put("amount", "50000");//pass amount in currency subunits
+            options.put("amount", "100");//pass amount in currency subunits
             options.put("prefill.email", "gaurav.kumar@example.com");
             options.put("prefill.contact","8105831133");
             JSONObject retryObj = new JSONObject();
