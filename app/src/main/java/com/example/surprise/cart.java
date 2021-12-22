@@ -71,7 +71,7 @@ btn.setOnClickListener(new View.OnClickListener() {
 
 
     public void onPaymentSuccess(String razorpayPaymentID) {
-        Intent i=new Intent(cart.this,PaymentDetails.class);
+        Intent i=new Intent(cart.this,PaymentSuccess.class);
         startActivity(i);
         finish();
     }

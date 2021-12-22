@@ -23,7 +23,7 @@ private ImageView ro;
         ro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(FlowerMain.this,FlowerSub.class);
+                Intent i=new Intent(FlowerMain.this,flowerSub2.class);
                 startActivity(i);
                 finish();
             }
