@@ -3,8 +3,23 @@ package com.example.surprise;
 public class flowerrecycle {
     String name;
     int price;
+    String imageurl;
 
 public flowerrecycle(){}
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public flowerrecycle(String name, int price, String imageurl) {
+        this.name = name;
+        this.price = price;
+        this.imageurl = imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
 
     public flowerrecycle(String name, int price) {
         this.name = name;

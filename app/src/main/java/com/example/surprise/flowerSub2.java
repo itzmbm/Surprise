@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -24,7 +23,7 @@ RecyclerView recyclerView;
 ArrayList<flowerrecycle> flowerarraylist;
 floweradapter myAdapter;
 FirebaseFirestore db;
-    ProgressDialog  pd;
+ProgressDialog  pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ FirebaseFirestore db;
   myAdapter=new floweradapter(flowerSub2.this,flowerarraylist);
 recyclerView.setAdapter(myAdapter);
   EventChangeListener();
-
     }
 
     private void EventChangeListener() {
