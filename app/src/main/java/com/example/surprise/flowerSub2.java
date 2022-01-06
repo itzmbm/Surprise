@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,6 +19,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class flowerSub2 extends AppCompatActivity {
 RecyclerView recyclerView;
@@ -33,7 +36,8 @@ ProgressDialog  pd;
         pd.setCancelable(false);
         pd.setMessage("fetching data");
         pd.show();
-
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Flowers");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
   recyclerView=findViewById(R.id.recyclerview);
   recyclerView.setHasFixedSize(true);
   recyclerView.setLayoutManager(new LinearLayoutManager(this));
