@@ -1,25 +1,47 @@
 package com.example.surprise;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class cart extends AppCompatActivity implements PaymentResultListener {
-
+public class cart extends AppCompatActivity  {
+    RecyclerView recyclerView;
+    ArrayList<cartrecycle> cartarraylist;
+    cartadapter myAdapter;
+    FirebaseFirestore db;
+    ProgressDialog pd;
+int totalsum=0;
     private Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,52 +54,55 @@ btn=findViewById(R.id.button2);
 btn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        makePayment();
-
+        Intent i=new Intent(getApplicationContext(),PlaceOrder.class);
+        i.putExtra("totalsum",totalsum);
+        Log.d("totsum", String.valueOf(totalsum));
+        startActivity(i);
     }
 });
+        pd=new ProgressDialog(this);
+        pd.setCancelable(false);
+        pd.setMessage("fetching data");
+        pd.show();
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Cart Details");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
+        recyclerView=findViewById(R.id.crecycle);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        db=FirebaseFirestore.getInstance();
+        cartarraylist=new ArrayList<>();
+        myAdapter=new cartadapter(cart.this,cartarraylist);
+        recyclerView.setAdapter(myAdapter);
+        EventChangeListener();
 
     }
 
-    private void makePayment() {
-        Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_vt6aef5g6GP2Rn");
-        checkout.setImage(R.drawable.logo);
+    private void EventChangeListener() {
+        db.collection("Cart").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error!=null){
+                    if(pd.isShowing()){
+                        pd.dismiss();
+                    }
+                    Log.e("Firestore error",error.getMessage());
+                    return;
+                }
+                for(DocumentChange dc:value.getDocumentChanges()){
+                    if(dc.getType()==DocumentChange.Type.ADDED){
+                        cartarraylist.add(dc.getDocument().toObject(cartrecycle.class));
+                        totalsum=totalsum+cartarraylist.get(cartarraylist.size()-1).totalprice;
 
-        final Activity activity = this;
-        try {
-            JSONObject options = new JSONObject();
-            options.put("name", "Surprise");
-            options.put("description", "Reference No. #123456");
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-//            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
-            options.put("theme.color", "#3399cc");
-            options.put("currency", "INR");
-            options.put("amount", "100");//pass amount in currency subunits
-            options.put("prefill.email", "gaurav.kumar@example.com");
-            options.put("prefill.contact","8105831133");
-            JSONObject retryObj = new JSONObject();
-            retryObj.put("enabled", true);
-            retryObj.put("max_count", 4);
-            options.put("retry", retryObj);
-
-            checkout.open(activity, options);
-
-        } catch(Exception e) {
-            Log.e("MSSG : ", "Error in starting Razorpay Checkout", e);
-        }
-
+                    }
+                    myAdapter.notifyDataSetChanged();
+                    if(pd.isShowing()){
+                        pd.dismiss();
+                    }
+                }
+            }
+        });
     }
 
 
-    public void onPaymentSuccess(String razorpayPaymentID) {
-        Intent i=new Intent(cart.this,PaymentSuccess.class);
-        startActivity(i);
-        finish();
-    }
-
-
-    public void onPaymentError(int code, String response) {
-
-    }
 }

@@ -12,8 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Surprise">
         <activity
+            android:name=".PlaceOrder"
+            android:exported="false" />
+        <activity
             android:name=".ProductDetails"
-
             android:exported="false" />
         <activity
             android:name=".flowerSub2"
