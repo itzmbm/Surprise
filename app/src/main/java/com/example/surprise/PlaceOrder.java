@@ -3,12 +3,16 @@ package com.example.surprise;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.style.TtsSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,15 +23,27 @@ import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class PlaceOrder extends AppCompatActivity implements PaymentResultListener {
-    TextView totalamount;
+    TextView Name,Mobno,Address,Pincode,totalamount,totban;
     private Button btn;
+    String name,address,mobno="";
+  String pincode="";
     int tsum=0;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Delivery Details");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
         btn=findViewById(R.id.order);
+        Name=findViewById(R.id.name);
+        Mobno=findViewById(R.id.mobno);
+        Address=findViewById(R.id.address);
+        Pincode=findViewById(R.id.pincode);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,10 +51,17 @@ public class PlaceOrder extends AppCompatActivity implements PaymentResultListen
             }
         });
         totalamount=findViewById(R.id.totalprice);
+        totban=findViewById(R.id.totbanner);
         Intent i=getIntent();
         tsum=i.getExtras().getInt("totalsum");
         Log.d("Totsum", String.valueOf(tsum));
         totalamount.setText(String.valueOf(tsum));
+        totban.setText("Total Amount :"+ (String.valueOf(tsum)) +"Rs");
+//        name= String.valueOf( Name.getText());
+//        mobno=String.valueOf(Mobno.getText());
+//        address=String.valueOf(Address.getText());
+//        pincode=String.valueOf(Pincode.getText());
+//        Log.d("Mobile No:",mobno);
 //        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,new IntentFilter("mytotalprice"));
     }
 //    public BroadcastReceiver mMessageReceiver=new BroadcastReceiver() {
@@ -63,7 +86,7 @@ public class PlaceOrder extends AppCompatActivity implements PaymentResultListen
             options.put("theme.color", "#3399cc");
             options.put("currency", "INR");
             options.put("amount", tsum*100);//pass amount in currency subunits
-            options.put("prefill.email", "gaurav.kumar@example.com");
+            options.put("prefill.email", "abc@example.com");
             options.put("prefill.contact","8105831133");
             JSONObject retryObj = new JSONObject();
             retryObj.put("enabled", true);

@@ -32,7 +32,7 @@ fl= (ImageView) findViewById(R.id.flower);
 fl.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Intent i=new Intent(Homepage.this,FlowerMain.class);
+        Intent i=new Intent(getApplicationContext(),FlowerMain.class);
         startActivity(i);
    finish();
     }

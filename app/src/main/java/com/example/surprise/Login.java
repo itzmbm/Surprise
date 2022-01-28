@@ -56,7 +56,7 @@ binding.signInButton.setOnClickListener(new View.OnClickListener() {
         lg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(Login.this,Homepage.class);
+                Intent i=new Intent(getApplicationContext(),Homepage.class);
                 startActivity(i);
                 finish();
             }

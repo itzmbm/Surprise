@@ -2,7 +2,15 @@ package com.example.surprise;
 
 public class cartrecycle {
     int price,requiredquantity,totalprice;
-    String name,imageurl,uid;
+    String name,imageurl,uid,oid;
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
 
     public int getPrice() {
         return price;
@@ -52,13 +60,15 @@ public class cartrecycle {
         this.uid = uid;
     }
 
-    public cartrecycle(int price, int requiredquantity, int totalprice, String name, String imageurl, String uid) {
+
+    public cartrecycle(int price, int requiredquantity, int totalprice, String name, String imageurl, String uid, String oid) {
         this.price = price;
         this.requiredquantity = requiredquantity;
         this.totalprice = totalprice;
         this.name = name;
         this.imageurl = imageurl;
         this.uid = uid;
+        this.oid = oid;
     }
 
     public cartrecycle(){}
