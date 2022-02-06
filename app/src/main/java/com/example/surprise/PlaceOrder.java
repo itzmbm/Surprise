@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
@@ -31,6 +33,7 @@ public class PlaceOrder extends AppCompatActivity implements PaymentResultListen
     String name,address,mobno="";
   String pincode="";
     int tsum=0;
+    boolean valid=false;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,9 @@ public class PlaceOrder extends AppCompatActivity implements PaymentResultListen
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makePayment();
+                if(valid()) {
+                    makePayment();
+                }
             }
         });
         totalamount=findViewById(R.id.totalprice);
@@ -57,12 +62,39 @@ public class PlaceOrder extends AppCompatActivity implements PaymentResultListen
         Log.d("Totsum", String.valueOf(tsum));
         totalamount.setText(String.valueOf(tsum));
         totban.setText("Total Amount :"+ (String.valueOf(tsum)) +"Rs");
-//        name= String.valueOf( Name.getText());
-//        mobno=String.valueOf(Mobno.getText());
-//        address=String.valueOf(Address.getText());
-//        pincode=String.valueOf(Pincode.getText());
+
 //        Log.d("Mobile No:",mobno);
 //        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,new IntentFilter("mytotalprice"));
+    }
+    boolean valid(){
+
+        String MobilePattern = "[0-9]{10}";
+        String PincodePattern="[0-9]{6}";
+
+        if (Name.length() == 0 || Mobno.length() == 0 || Address.length() == 0 || Pincode.length() == 0 ) {
+            Toast.makeText(getApplicationContext(), "please fill the empty fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(!Pincode.getText().toString().matches(PincodePattern)) {
+            Toast.makeText(getApplicationContext(), "Please enter valid 6 digit Pincode", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(!Mobno.getText().toString().matches(MobilePattern)) {
+            Toast.makeText(getApplicationContext(), "Please enter valid 10 digit phone number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(Pincode.getText().toString().matches(PincodePattern)) {
+            return true;
+        }
+       if(Mobno.getText().toString().matches(MobilePattern)) {
+//                    Toast.makeText(getApplicationContext(), "phone number is valid", Toast.LENGTH_SHORT).show();
+return true;
+        }
+//       else if (Address.length() > 25) {
+//            Toast.makeText(getApplicationContext(), "pls enter full address properly", Toast.LENGTH_SHORT).show();
+//            return false;
+//
+//        }
+        return false;
     }
 //    public BroadcastReceiver mMessageReceiver=new BroadcastReceiver() {
 //        @Override
@@ -75,10 +107,12 @@ public class PlaceOrder extends AppCompatActivity implements PaymentResultListen
         Checkout checkout = new Checkout();
         checkout.setKeyID("rzp_test_vt6aef5g6GP2Rn");
         checkout.setImage(R.drawable.logo);
-
+        SharedPreferences b = getSharedPreferences("Logindetails", MODE_PRIVATE);
+        mobno=String.valueOf(Mobno.getText());
         final Activity activity = this;
         try {
             JSONObject options = new JSONObject();
+
             options.put("name", "Surprise");
             options.put("description", "Reference No. #123456");
             options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
@@ -86,8 +120,8 @@ public class PlaceOrder extends AppCompatActivity implements PaymentResultListen
             options.put("theme.color", "#3399cc");
             options.put("currency", "INR");
             options.put("amount", tsum*100);//pass amount in currency subunits
-            options.put("prefill.email", "abc@example.com");
-            options.put("prefill.contact","8105831133");
+            options.put("prefill.email", b.getString("email",""));
+            options.put("prefill.contact",mobno);
             JSONObject retryObj = new JSONObject();
             retryObj.put("enabled", true);
             retryObj.put("max_count", 4);

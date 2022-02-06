@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ public class ProductDetails extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_product_details);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Product Details");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
-
+        SharedPreferences b = getSharedPreferences("Logindetails", MODE_PRIVATE);
         final Object object=getIntent().getSerializableExtra("details" );
 if(object instanceof flowerrecycle){
 viewHolder=(flowerrecycle) object;
@@ -121,7 +122,7 @@ String nam,imagurl,pid;
             String oid=fdb.collection("Cart").document().getId();
             Log.d("DOC",oid);
             map.put("oid",oid);
-            map.put("uid","101");
+            map.put("uid",b.getString("uid",""));
             map.put("name",nam);
             map.put("price",price);
             map.put("requiredquantity",requiredquan);

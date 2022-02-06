@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Surprise">
         <activity
+            android:name=".Registrations"
+            android:exported="false" />
+        <activity
             android:name=".PlaceOrder"
             android:exported="false" />
         <activity

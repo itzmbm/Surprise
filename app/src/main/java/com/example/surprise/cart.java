@@ -13,6 +13,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ int totalsum=0;
         Checkout.preload(getApplicationContext());
         Objects.requireNonNull(getSupportActionBar()).setTitle("Cart");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
+        SharedPreferences b = getSharedPreferences("Logindetails", MODE_PRIVATE);
 btn=findViewById(R.id.button2);
 btn.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -78,7 +80,8 @@ btn.setOnClickListener(new View.OnClickListener() {
     }
 
     private void EventChangeListener() {
-        db.collection("Cart").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        SharedPreferences b = getSharedPreferences("Logindetails", MODE_PRIVATE);
+        db.collection("Cart").whereEqualTo("uid",b.getString("uid","")).orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

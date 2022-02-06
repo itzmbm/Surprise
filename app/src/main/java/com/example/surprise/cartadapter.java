@@ -3,6 +3,7 @@ package com.example.surprise;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class cartadapter extends RecyclerView.Adapter<cartadapter.MyViewHolder> implements Serializable{
     Context context;
@@ -38,9 +41,10 @@ public class cartadapter extends RecyclerView.Adapter<cartadapter.MyViewHolder> 
 FirebaseFirestore db,fdb;
     DocumentSnapshot document;
     boolean operation=false;
-int total=0;
-String oid,actualquant,pid,totalquant="";
-int quant=0;
+int total;
+String oid="";
+String pid="nothing";
+int quant,actualquant,totalquant;
     public cartadapter(Context context, ArrayList<cartrecycle> cartarraylist) {
         this.context = context;
         this.cartarraylist = cartarraylist;
@@ -79,6 +83,7 @@ holder.delete.setOnClickListener(new View.OnClickListener() {
         Log.d("oid",oid);
         db=FirebaseFirestore.getInstance();
         //update quantity back if item deleted
+        //1. get required quantity from cart item
                 db.collection("Cart").document(oid).get();
          db.collection("Cart").document(oid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -87,10 +92,33 @@ holder.delete.setOnClickListener(new View.OnClickListener() {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
-//                         quant=Integer.parseInt(String.valueOf(document.getLong("requiredquantity")));
-operation=true;
-                         pid= (String) document.get("pid");
-                        Log.d("oidddddddddddddddd", String.valueOf(document));
+                         quant= (int) Long.parseLong(String.valueOf(document.getLong("requiredquantity")));
+                         pid= document.getString("pid");
+
+                        //2.get existing quantity from the product list
+        db.collection("Flowers").document(pid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        Log.d("oidddddddddddddddd", String.valueOf(pid));
+                        actualquant=(int)Long.parseLong(String.valueOf(document.getLong("quantity")));
+
+                        totalquant=actualquant+quant;
+                        Log.d("QUANTITY", String.valueOf(totalquant));
+                        //3. total the existing quantity add with deleted quantity and update back
+                        db.collection("Flowers").document(pid).update("quantity",totalquant).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+                        });
                     } else {
                         Log.d("LOGGER", "No such document");
                     }
@@ -99,62 +127,37 @@ operation=true;
                 }
             }
         });
-         Log.d("QUANTITY", pid);
-//        DocumentReference docRef1 = db.collection("Flowers").document(oid);
-//        docRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document != null) {
-//                        actualquant=document.getString("quantity");
-//
-//                    } else {
-//                        Log.d("LOGGER", "No such document");
-//                    }
-//                } else {
-//                    Log.d("LOGGER", "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//
-//        totalquant=Integer.parseInt(actualquant)+Integer.parseInt(String.valueOf(quant));
-//        fdb=FirebaseFirestore.getInstance();
-//        fdb.collection("Flowers").document( "product1").update("quantity",totalquant).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//
-//            }
-//        });
+                    } else {
+                        Log.d("LOGGER", "No such document");
+                    }
+
+                } else {
+                    Log.d("LOGGER", "get failed with ", task.getException());
+                }
+            }
+        });
+
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(operation=true) {
-            db.collection("Cart").document(oid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(context.getApplicationContext(), "Item removed",Toast.LENGTH_SHORT).show();
+// delete item from cart collection
+                db.collection("Cart").document(oid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(context.getApplicationContext(), "Item removed",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(context.getApplicationContext(), "Error",Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    else
-                    {
-                        Toast.makeText(context.getApplicationContext(), "Error",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            cartarraylist.remove(holder.getAdapterPosition());
-            notifyDataSetChanged();
-        }
+                });
 
-
-
+                cartarraylist.remove(holder.getAdapterPosition());
+                notifyDataSetChanged();
 
     }
 });
@@ -178,7 +181,6 @@ operation=true;
             imageurl=itemView.findViewById(R.id.cimage);
             totalprice=itemView.findViewById(R.id.ctotalprice);
             delete=itemView.findViewById(R.id.delete);
-
         }
     }
 }
