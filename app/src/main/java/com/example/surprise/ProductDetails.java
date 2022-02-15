@@ -49,7 +49,6 @@ public class ProductDetails extends AppCompatActivity implements Serializable {
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Product Details");
@@ -119,9 +118,9 @@ String nam,imagurl,pid;
         Log.e("required",String.valueOf(requiredquan));
         if(requiredquan<=actualquan){
             HashMap<String,Object> map=new HashMap<>();
-            String oid=fdb.collection("Cart").document().getId();
-            Log.d("DOC",oid);
-            map.put("oid",oid);
+            String cid=fdb.collection("Cart").document().getId();
+            Log.d("DOC",cid);
+            map.put("cid",cid);
             map.put("uid",b.getString("uid",""));
             map.put("name",nam);
             map.put("price",price);
@@ -146,7 +145,7 @@ String nam,imagurl,pid;
                     Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
                 }
             });
-            fdb.collection("Cart").document(oid).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            fdb.collection("Cart").document(cid).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){

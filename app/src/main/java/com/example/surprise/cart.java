@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +43,7 @@ public class cart extends AppCompatActivity  {
     cartadapter myAdapter;
     FirebaseFirestore db;
     ProgressDialog pd;
-int totalsum=0;
+    int totalsum=0;
     private Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +76,15 @@ btn.setOnClickListener(new View.OnClickListener() {
         cartarraylist=new ArrayList<>();
         myAdapter=new cartadapter(cart.this,cartarraylist);
         recyclerView.setAdapter(myAdapter);
-        EventChangeListener();
+        try {
+            EventChangeListener();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void EventChangeListener() {
+    private void EventChangeListener() throws InterruptedException {
         SharedPreferences b = getSharedPreferences("Logindetails", MODE_PRIVATE);
         db.collection("Cart").whereEqualTo("uid",b.getString("uid","")).orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")
@@ -96,7 +101,6 @@ btn.setOnClickListener(new View.OnClickListener() {
                     if(dc.getType()==DocumentChange.Type.ADDED){
                         cartarraylist.add(dc.getDocument().toObject(cartrecycle.class));
                         totalsum=totalsum+cartarraylist.get(cartarraylist.size()-1).totalprice;
-
                     }
                     myAdapter.notifyDataSetChanged();
                     if(pd.isShowing()){
@@ -105,6 +109,17 @@ btn.setOnClickListener(new View.OnClickListener() {
                 }
             }
         });
+//        Intent i=new Intent(getApplicationContext(),PlaceOrder.class);
+//        Bundle args = new Bundle();
+//        args.putSerializable("cartitems",cartarraylist);
+//        i.putExtras(args);
+//        Thread.sleep(1000);
+//        startActivity(i);
+
+// SharedPreferences  sh = getSharedPreferences("cartdetails", MODE_PRIVATE);
+//        SharedPreferences.Editor myEdit = sh.edit();
+//        myEdit.putInt("total", totalsum);
+//        myEdit.apply();
     }
 
 

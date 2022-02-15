@@ -3,6 +3,7 @@ package com.example.surprise;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ FirebaseFirestore db,fdb;
     DocumentSnapshot document;
     boolean operation=false;
 int total;
-String oid="";
+String cid="";
 String pid="nothing";
 int quant,actualquant,totalquant;
     public cartadapter(Context context, ArrayList<cartrecycle> cartarraylist) {
@@ -70,29 +71,29 @@ holder.totalprice.setText(String.valueOf(fc.totalprice));
 holder.quantity.setText(String.valueOf(fc.requiredquantity));
 holder.quan.setText(String.valueOf(fc.requiredquantity));
         Glide.with(context).load(fc.imageurl).into(holder.imageurl);
-        total=total+fc.totalprice;
+
 //        Log.d("TOTAL", String.valueOf(total));
 //        Intent intent=new Intent("mytotalprice");
 //        intent.putExtra("totalAmount",total);
 //        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-oid=fc.oid;
+cid=fc.cid;
 
 holder.delete.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        Log.d("oid",oid);
+        Log.d("oid",cid);
         db=FirebaseFirestore.getInstance();
         //update quantity back if item deleted
         //1. get required quantity from cart item
-                db.collection("Cart").document(oid).get();
-         db.collection("Cart").document(oid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                db.collection("Cart").document(cid).get();
+         db.collection("Cart").document(cid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
-                         quant= (int) Long.parseLong(String.valueOf(document.getLong("requiredquantity")));
+                         quant= Integer.parseInt(String.valueOf(document.getLong("requiredquantity")));
                          pid= document.getString("pid");
 
                         //2.get existing quantity from the product list
@@ -143,7 +144,7 @@ holder.delete.setOnClickListener(new View.OnClickListener() {
             e.printStackTrace();
         }
 // delete item from cart collection
-                db.collection("Cart").document(oid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                db.collection("Cart").document(cid).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -159,8 +160,16 @@ holder.delete.setOnClickListener(new View.OnClickListener() {
                 cartarraylist.remove(holder.getAdapterPosition());
                 notifyDataSetChanged();
 
+
+
+
     }
 });
+//        total=total+fc.totalprice;
+//        SharedPreferences sh = context.getSharedPreferences("cartdetails", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor myEdit = sh.edit();
+//        myEdit.putInt("total", total);
+//        myEdit.apply();
     }
 
     @Override
@@ -171,7 +180,7 @@ holder.delete.setOnClickListener(new View.OnClickListener() {
     public static class MyViewHolder extends RecyclerView.ViewHolder implements Serializable {
         TextView name,price,totalprice,quantity,quan;
         ImageView imageurl;
-        Button delete;
+        Button delete,buy;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.cname);
@@ -181,6 +190,7 @@ holder.delete.setOnClickListener(new View.OnClickListener() {
             imageurl=itemView.findViewById(R.id.cimage);
             totalprice=itemView.findViewById(R.id.ctotalprice);
             delete=itemView.findViewById(R.id.delete);
+            buy=itemView.findViewById(R.id.button2);
         }
     }
 }
