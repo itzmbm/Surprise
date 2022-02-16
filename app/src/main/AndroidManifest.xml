@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.surprise">
+    package="com.example.surprise" >
 
     <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Surprise">
+        android:theme="@style/Theme.Surprise" >
+        <activity
+            android:name=".OrderDetails"
+            android:exported="false" />
+        <activity
+            android:name=".Orders"
+            android:exported="false" />
         <activity
             android:name=".Registrations"
             android:exported="false" />
@@ -26,7 +34,7 @@
 
         <receiver
             android:name="com.razorpay.RzpTokenReceiver"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="rzp.device_token.share" />
             </intent-filter>
@@ -36,7 +44,7 @@
             android:name="com.razorpay.CheckoutActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:theme="@style/CheckoutTheme">
+            android:theme="@style/CheckoutTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,13 +57,7 @@
             android:name=".PaymentSuccess"
             android:exported="false" />
         <activity
-            android:name=".OrderView"
-            android:exported="false" />
-        <activity
             android:name=".Profile"
-            android:exported="false" />
-        <activity
-            android:name=".FlowerSub"
             android:exported="false" />
         <activity
             android:name=".cart"
@@ -74,7 +76,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -93,8 +93,11 @@ holder.delete.setOnClickListener(new View.OnClickListener() {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
-                         quant= Integer.parseInt(String.valueOf(document.getLong("requiredquantity")));
-                         pid= document.getString("pid");
+                        try{ quant= Integer.parseInt(String.valueOf(document.getLong("requiredquantity")));
+                         pid= document.getString("pid");}
+                        catch (Exception e){
+                            Log.d("error", String.valueOf(e));
+                        }
 
                         //2.get existing quantity from the product list
         db.collection("Flowers").document(pid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

@@ -46,8 +46,10 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Calendar;
 
 public class PlaceOrder extends AppCompatActivity implements PaymentResultListener, Serializable {
     TextView Name,Mobno,Address,Pincode,totalamount,totban;
@@ -243,19 +245,30 @@ return true;
             HashMap<String, Object> map = new HashMap<>();
             map.put("did",did);
             map.put("uid",b.getString("uid",""));
-            map.put("Name", name);
+            map.put("name", name);
             map.put("mobileno", mobno);
             map.put("address", addr);
             map.put("pincode", pin);
             map.put("total",tsum);
+            Date currentTime = Calendar.getInstance().getTime();
+            map.put("orderedDateTime",currentTime);
+            Calendar c = Calendar.getInstance();
+            c.setTime(currentTime);
+            // manipulate date
+            c.add(Calendar.YEAR, 0);
+            c.add(Calendar.MONTH, 0);
+            c.add(Calendar.DATE, 3);
+            Date currentDatePlusOne = c.getTime();
+            map.put("deliveryByDateTime",currentDatePlusOne);
+            Log.d("datetime", String.valueOf(currentDatePlusOne));
 
             db.collection("Delivery").document(did).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(getApplicationContext(), "Order placed successfully", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), cart.class);
-                        startActivity(i);
+//                        Intent i = new Intent(getApplicationContext(), cart.class);
+//                        startActivity(i);
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -270,7 +283,7 @@ return true;
           Log.d("Exception caught", String.valueOf(e));
         }
 
-        Intent i=new Intent(PlaceOrder.this,PaymentSuccess.class);
+        Intent i=new Intent(PlaceOrder.this,Orders.class);
         startActivity(i);
             finish();
         }
