@@ -3,6 +3,7 @@ package com.example.surprise;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,7 +45,7 @@ public class ProductDetails extends AppCompatActivity implements Serializable {
     ImageView img;
     ImageButton increase,decrease;
     Button aoc;
-    Toolbar tlbar;
+
   flowerrecycle viewHolder=null;
   private FirebaseFirestore fdb;
 
@@ -51,6 +54,10 @@ public class ProductDetails extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+        Window window = ProductDetails.this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(ContextCompat.getColor(ProductDetails.this, R.color.black));
         Objects.requireNonNull(getSupportActionBar()).setTitle("Product Details");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#E7879A")));
         SharedPreferences b = getSharedPreferences("Logindetails", MODE_PRIVATE);

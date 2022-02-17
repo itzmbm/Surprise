@@ -7,24 +7,246 @@
     android:layout_height="match_parent"
     tools:context=".OrderDetails">
 
-  <androidx.constraintlayout.widget.ConstraintLayout
-      android:id="@+id/constraintLayout2"
-      android:layout_width="405dp"
-      android:layout_height="236dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.004">
+  <androidx.cardview.widget.CardView
+      android:id="@+id/cardView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      app:cardCornerRadius="8dp"
+      app:cardElevation="8dp"
+      tools:layout_editor_absoluteX="16dp">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="390dp"
+        android:layout_height="286dp"
+        android:background="#DEF4D4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.035">
+
+      <TextView
+          android:id="@+id/tprice1"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="TextView"
+          android:textSize="16dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="1.0"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.893" />
+
+      <TextView
+          android:id="@+id/textView47"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="Total :Rs"
+          android:textAlignment="center"
+          android:textSize="16dp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.738"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.893" />
+
+      <TextView
+          android:id="@+id/dt1"
+          android:layout_width="120dp"
+          android:layout_height="24dp"
+          android:text="TextView"
+          android:textSize="16dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.425"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.893" />
+
+      <TextView
+          android:id="@+id/mobno1"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="TextView"
+          android:textSize="16dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.38"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.354" />
+
+      <TextView
+          android:id="@+id/addr1"
+          android:layout_width="240dp"
+          android:layout_height="44dp"
+          android:text="TextView"
+          android:textSize="16dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.766"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.541" />
+
+      <TextView
+          android:id="@+id/ot1"
+          android:layout_width="120dp"
+          android:layout_height="24dp"
+          android:text="TextView"
+          android:textSize="16dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.425"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.732" />
+
+      <TextView
+          android:id="@+id/sname1"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="TextView"
+          android:textSize="16dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.38"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.213" />
+
+      <TextView
+          android:id="@+id/did1"
+          android:layout_width="241dp"
+          android:layout_height="24dp"
+          android:text="TextView"
+          android:textSize="16dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.765"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.072" />
+
+      <TextView
+          android:id="@+id/textView40"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="Address"
+          android:textAlignment="center"
+          android:textSize="16dp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.078"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+      <TextView
+          android:id="@+id/textView37"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="Ordered Date:"
+          android:textAlignment="center"
+          android:textSize="16dp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.078"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.736" />
+
+      <TextView
+          android:id="@+id/textView39"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="Delivery Date:"
+          android:textAlignment="center"
+          android:textSize="16dp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.078"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.893" />
+
+      <TextView
+          android:id="@+id/textView24"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="Order ID:"
+          android:textAlignment="center"
+          android:textSize="16dp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.078"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.075" />
+
+      <TextView
+          android:id="@+id/textView35"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="Ship To:"
+          android:textAlignment="center"
+          android:textSize="16dp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.078"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.213" />
+
+      <TextView
+          android:id="@+id/textView36"
+          android:layout_width="90dp"
+          android:layout_height="24dp"
+          android:text="Mobile No:"
+          android:textAlignment="center"
+          android:textSize="16dp"
+          android:textStyle="bold"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.078"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.358" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.cardview.widget.CardView>
 
   <androidx.recyclerview.widget.RecyclerView
-      android:layout_width="373dp"
-      android:layout_height="473dp"
+      android:id="@+id/rcview2"
+      android:layout_width="362dp"
+      android:layout_height="347dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.489"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="1.0" />
+
+  <TextView
+      android:id="@+id/textView41"
+      android:layout_width="97dp"
+      android:layout_height="36dp"
+      android:text="List of Items"
+      android:textAlignment="center"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.458" />
 </androidx.constraintlayout.widget.ConstraintLayout>
