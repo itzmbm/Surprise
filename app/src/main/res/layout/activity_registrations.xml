@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/login" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName6"
+        android:id="@+id/em"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -49,7 +49,7 @@
         tools:ignore="HardcodedText" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.472" />
 
     <EditText
-        android:id="@+id/editTextTextPassword3"
+        android:id="@+id/repas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
